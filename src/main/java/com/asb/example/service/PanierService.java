@@ -18,10 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 @Service
 public class PanierService {
@@ -51,6 +48,38 @@ public class PanierService {
         });
         return panierDtos;
     }
+
+
+    public String deletePanier(Long panierID) {
+
+        Optional<Panier> panier = panierRepository.findById(panierID);
+        //Remove the related courses from student entity.
+        if(panier.isPresent()) {
+            panier.get().removeProducts();
+            panierRepository.deleteById(panier.get().getPanier_ID());
+            return "Student with id: " + panierID + " deleted successfully!";
+        }
+        return null;
+    }
+
+    public String deleteProduct_Panier(Long panierID,Long productID){
+        Optional<Panier> panier = panierRepository.findById(panierID);
+        Set<Product> products = panier.get().getProducts();
+        for (Product product:products){
+            if (product.getProduct_ID()==productID){
+                panier.get().removeProduct(product);
+                break;
+            }
+        }
+       // if(panier.isPresent()) {
+         //   panier.get().removeProduct(product.get());
+           // product.get().removePanier(panier.get());
+          //  panierRepository.deleteById(panier.get().getPanier_ID());
+       panierRepository.save(panier.get());
+            return "Panier with id: " + panierID + " deleted successfully! the product with id"+ productID;
+
+    }
+
 /*
     @Transactional
 

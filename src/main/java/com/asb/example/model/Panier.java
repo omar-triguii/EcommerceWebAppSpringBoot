@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 @Getter
 @Setter
@@ -28,6 +29,17 @@ public class Panier {
    public void addProduct(Product product) {
         this.products.add(product);
         product.getPaniers().add(this);
+    }
+
+    public void removeProduct(Product product) {
+        this.getProducts().remove(product);
+        product.getPaniers().remove(this);
+    }
+
+    public void removeProducts() {
+        for (Product product : new HashSet<>(products)) {
+            removeProduct(product);
+        }
     }
 
 
