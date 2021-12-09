@@ -26,6 +26,14 @@ public class Product {
     private Integer quantity;
     private Date datefondation;
 
+    public Product(String name, BigDecimal prix, BigDecimal TVA, Integer quantity) {
+        super();
+        this.name = name;
+        this.prix = prix;
+        this.TVA = TVA;
+        this.quantity = quantity;
+        //this.datefondation = datefondation;
+    }
 
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinTable(name = "Product_panier", joinColumns = { @JoinColumn(name = "product_ID") }, inverseJoinColumns = {
@@ -35,6 +43,16 @@ public class Product {
     @ManyToOne()
     @JoinColumn(name = "categoryId")
     private Category category;
+
+
+
+    //@JsonIgnore
+    @OneToMany(mappedBy = "product",cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<ProductImage> productImages = new HashSet<ProductImage>();
+
+    public Product() {
+
+    }
 
 
     public Category getCategory() {

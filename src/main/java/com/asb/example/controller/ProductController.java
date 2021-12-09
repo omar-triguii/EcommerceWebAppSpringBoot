@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -18,12 +21,33 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+//adding a product with no dto and with list of its imgaes
+    @PostMapping("addproduct")
+    public ResponseEntity<String> uploadImage(@RequestParam("files") MultipartFile[] files, @RequestParam("name") String name,
+                                              @RequestParam("prix") BigDecimal prix, @RequestParam("Tva") BigDecimal Tva
+            , @RequestParam("quantity") Integer quantity
+                              ,@RequestParam("categoryType") String categoryType               )
+    {
+        try {
+            this.productService.addproduct2( name, prix, Tva, quantity,files,categoryType);
+            return ResponseEntity.status(HttpStatus.OK).build();
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+//get products not using dto
+@GetMapping("zbat")
+public List<Product> zbat(){
+        return productService.getproduct();
+}
+//get products using dto
     @GetMapping("/products")
     public ResponseEntity<List<ProductDto>> getAllStudents() {
         List<ProductDto> products = productService.getAllProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
-
+//adding a product with dto format and with no images
     @PostMapping("/product")
     public ResponseEntity<ProductDto> getAllStudents(@RequestBody ProductDto productDto) throws ParseException {
         ProductDto std = productService.addProduct(productDto);

@@ -4,27 +4,24 @@ package com.asb.example.service;
 
 import com.asb.example.dto.CourseDto;
 import com.asb.example.dto.ProductDto;
-import com.asb.example.model.Course;
-import com.asb.example.model.Panier;
-import com.asb.example.model.Product;
-import com.asb.example.model.Student;
-import com.asb.example.repo.CourseRepository;
-import com.asb.example.repo.PanierRepository;
-import com.asb.example.repo.ProductRepository;
-import com.asb.example.repo.StudentRepository;
+import com.asb.example.model.*;
+import com.asb.example.repo.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.LongToIntFunction;
 import java.util.stream.Collectors;
+import java.util.zip.Deflater;
 
 @Service
 public class ProductService {
@@ -45,6 +42,72 @@ public class ProductService {
         Product product = mapDtoToEntity(productDto);;
         Product savedProduct = productRepository.save(product);
         return mapEntityToDto(savedProduct);
+    }
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+    public void addproduct2(
+                               String name,
+                               BigDecimal prix,
+                               BigDecimal TVA,
+                               Integer quantity,
+                                MultipartFile[] files,
+                               String categoryType) throws IOException {
+
+        Product product = new Product(name, prix, TVA, quantity);
+        Set<ProductImage> productImages = new HashSet<ProductImage>();
+        for (int i = 0; i < files.length; i++) {
+            ProductImage productImage = new ProductImage();
+            productImage.setName(StringUtils.cleanPath(files[i].getOriginalFilename()));
+            productImage.setContentType(files[i].getContentType());
+            productImage.setData(compressImage(files[i].getBytes()));
+            System.out.println("decompressing");
+            productImage.setSize(files[i].getSize());
+            productImage.setProduct(product);
+            productImages.add(productImage);
+        }
+        product.setProductImages(productImages);
+
+        switch (categoryType) {
+            case "FOOD":
+                product.setCategory(this.categoryRepository.findById(1L).get());
+                break;
+            case "BOSS":
+                product.setCategory(this.categoryRepository.findById(3L).get());
+                break;
+            case "SUPERUSER":
+                product.setCategory(this.categoryRepository.findById(4L).get());
+                break;
+            case "BOOK":
+                product.setCategory(this.categoryRepository.findById(2L).get());
+                break;
+            default:
+                //throw new Exception
+        }
+        this.productRepository.save(product);
+
+    }
+
+
+
+    private byte[] compressImage(byte[] data)
+    {
+        Deflater deflater=new Deflater();
+        deflater.setInput(data);
+        deflater.finish();
+        ByteArrayOutputStream outputStream=new ByteArrayOutputStream(data.length);
+        byte[] buffer=new byte[1024];
+        try {
+            while(!deflater.finished())
+            {
+                int count=deflater.deflate(buffer);
+                outputStream.write(buffer,0,count);
+            }
+            outputStream.close();
+        }
+        catch (IOException ex) {
+        }
+        return outputStream.toByteArray();
     }
 
 

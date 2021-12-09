@@ -48,4 +48,10 @@ public class PanierController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    @PostMapping("/{id}/{productId}")
+    public String addProductinPanier(@PathVariable(name = "id") Long id,@PathVariable(name = "productId") Long productId){
+        String message= panierService.addProductinPanier(id,productId);
+        return message;
+    }
+
 }

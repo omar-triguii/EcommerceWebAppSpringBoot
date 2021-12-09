@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -79,7 +80,20 @@ public class PanierService {
             return "Panier with id: " + panierID + " deleted successfully! the product with id"+ productID;
 
     }
+    public String addProductinPanier(Long panierID,Long productId){
+        Optional<Panier> panier = panierRepository.findById(panierID);
+      //  Product p=productRepository.findById(product.getProduct_ID());
+       // Set<Product> products = panier.get().getProducts();
+       // products.add(product);
+        Optional<Product> product=productRepository.findById(productId);
+        panier.get().addProduct(product.get());
+        panier.get().setNbProducts(panier.get().getNbProducts()+1);
+        BigDecimal x=panier.get().getTotal().add(product.get().getPrix());
+        panier.get().setTotal(x);
+        panierRepository.save(panier.get());
+        return "product with id " + productId+ " est ajoute en panier avec id"+ panierID;
 
+    }
 /*
     @Transactional
 

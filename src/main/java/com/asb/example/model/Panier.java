@@ -26,6 +26,14 @@ public class Panier {
     @JsonIgnore
     private Set<Product> products;
 
+
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    private userEntity userEntity;
+
+
    public void addProduct(Product product) {
         this.products.add(product);
         product.getPaniers().add(this);

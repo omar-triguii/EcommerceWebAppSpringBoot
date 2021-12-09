@@ -39,5 +39,9 @@ public class UserController {
         }
     }
 
+    @PostMapping("{userID}")
+    public String addpanier(@PathVariable Long userID){
+        return this.userService.addPanier(userID);
+    }
 
 }

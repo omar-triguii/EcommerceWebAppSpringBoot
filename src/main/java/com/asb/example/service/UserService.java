@@ -3,8 +3,10 @@ package com.asb.example.service;
 import com.asb.example.Enums.roleTypeEnum;
 import com.asb.example.dto.ProductDto;
 import com.asb.example.dto.UserDto;
+import com.asb.example.model.Panier;
 import com.asb.example.model.Product;
 import com.asb.example.model.userEntity;
+import com.asb.example.repo.PanierRepository;
 import com.asb.example.repo.RoleRepository;
 import com.asb.example.repo.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -13,9 +15,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -102,5 +109,22 @@ private RoleRepository roleRepository;
             post.setSent(oldPost.isSent());
         }*/
         return user;
+    }
+    @Autowired
+    private PanierRepository panierRepository;
+    public String addPanier(Long userId){
+        Panier panier = new Panier();
+        Optional<userEntity> userEntity=this.userRepository.findById(userId);
+        panier.setUserEntity(userEntity.get());
+        panier.setPanierName(userEntity.get().getFirstName());
+        panier.setNbProducts(0);
+       // LocalDate localDate = LocalDate.now();
+        //Date date = Date.from(Instant.from(localDate.atStartOfDay()));
+        Date date = new Date(System.currentTimeMillis());
+        panier.setDatePanier(date);
+        panier.setTotal(BigDecimal.valueOf(0));
+        this.panierRepository.save(panier);
+        return "pannier added successfully to user"+userId;
+
     }
 }

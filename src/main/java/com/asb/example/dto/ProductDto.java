@@ -1,6 +1,7 @@
 package com.asb.example.dto;
 
 import com.asb.example.model.Category;
+import com.asb.example.model.ProductImage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,4 +22,5 @@ public class ProductDto {
     private Date datefondation;
     private Set<String> paniers = new HashSet<>();
     private Category category;
+    private Set<ProductImage> productImages ;
 }

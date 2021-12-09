@@ -1,5 +1,6 @@
 package com.asb.example.dto;
 
+import com.asb.example.model.userEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ public class PanierDto {
     private Date datePanier;
 
     private String panierName;
+    private userEntity userEntity;
     private Set<String> products = new HashSet<>();
 }
 

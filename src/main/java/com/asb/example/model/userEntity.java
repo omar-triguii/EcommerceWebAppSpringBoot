@@ -1,6 +1,7 @@
 package com.asb.example.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -44,6 +45,11 @@ public class userEntity {
     @ManyToOne
     @JoinColumn(name = "id")
     private roleEntity roleentity;
+
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "userEntity")
+    private Panier panier;
 
     public userEntity() {
 
