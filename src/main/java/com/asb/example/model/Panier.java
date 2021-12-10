@@ -34,7 +34,12 @@ public class Panier {
     private userEntity userEntity;
 
 
-   public void addProduct(Product product) {
+    @JsonIgnore
+    @OneToOne(mappedBy = "panier")
+    private Commande commande;
+
+
+    public void addProduct(Product product) {
         this.products.add(product);
         product.getPaniers().add(this);
     }
