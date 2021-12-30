@@ -192,7 +192,8 @@ public class ProductService {
         productDto.setQuantity(product.getQuantity());
         productDto.setName(product.getName());
         productDto.setDatefondation(product.getDatefondation());
-        productDto.setCategory(product.getCategory());
+        productDto.setCategoryId(product.getCategory().getId());
+    // productDto.setProductImages(product.getProductImages());
         //productDto.setPaniers(product.getPaniers().);
         return productDto;
     }
@@ -210,7 +211,10 @@ public List<Product> getproduct(){
         product.setQuantity(productDto.getQuantity());
         product.setDatefondation(productDto.getDatefondation());
         product.setPaniers(product.getPaniers());
-        product.setCategory(productDto.getCategory());
+      product.setProductImages(product.getProductImages());
+        Category category=this.categoryRepository.getOne(productDto.getCategoryId());
+        product.setCategory(category);
+
 /*
         if (product.getProduct_ID() != null) {
             Product oldPost = .getPostById(postDto.getId());

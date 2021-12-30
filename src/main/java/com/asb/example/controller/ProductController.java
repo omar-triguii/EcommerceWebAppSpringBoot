@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class ProductController {
 
     @Autowired
@@ -48,7 +49,7 @@ public List<Product> zbat(){
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 //adding a product with dto format and with no images
-    @PostMapping("/product")
+    @PostMapping("/products")
     public ResponseEntity<ProductDto> getAllStudents(@RequestBody ProductDto productDto) throws ParseException {
         ProductDto std = productService.addProduct(productDto);
         return new ResponseEntity<>(std, HttpStatus.CREATED);
@@ -67,7 +68,7 @@ public List<Product> zbat(){
     }
 
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<String> deleteCourse(@PathVariable(name = "id") Long id) {
         String message = productService.deleteProduct(id);
         return new ResponseEntity<>(message, HttpStatus.OK);

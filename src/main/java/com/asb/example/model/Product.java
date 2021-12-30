@@ -72,6 +72,15 @@ public class Product {
             removePanier(panier);
         }
     }
+
+    public Set<ProductImage> getProductImages() {
+        return productImages;
+    }
+
+    public void setProductImages(Set<ProductImage> productImages) {
+        this.productImages = productImages;
+    }
+
     @Override
     public String toString() {
         return "Product{" +

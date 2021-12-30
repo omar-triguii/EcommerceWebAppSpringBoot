@@ -39,15 +39,21 @@ public class CommandeService {
         commande.setCommandeName(panier.get().getUserEntity().getFirstName());
 
         commande.setListCommande(this.listCommandeRepository.getOne(1L));
-      //  this.listCommandeRepository.findById(1L).get().addCommandeToList(commande);
+        Commande commande1=commande;
+       this.listCommandeRepository.findById(1L).get().addCommandeToList(commande1);
         this.commandeRepository.save(commande);
         CommandeDto commandeDto = mapEntityToDto(commande);
         return commandeDto;
 
     }
     public String deletePanierAfterCommande(Long panierId){
+        Commande commande=this.commandeRepository.getOne(panierId);
+        Commande commande1=new Commande();
+        commande1.setCommandeId(commande.getCommandeId());
+        this.commandeRepository.delete(commande);
         this.panierRepository.delete(this.panierRepository.getOne(panierId));
-        this.commandeRepository.delete(this.commandeRepository.getOne(panierId));
+        this.listCommandeRepository.findById(1L).get().addCommandeToList(commande1);
+
         return "deleted";
     }
 

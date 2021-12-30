@@ -21,6 +21,7 @@ public class ProductDto {
     private Integer quantity;
     private Date datefondation;
     private Set<String> paniers = new HashSet<>();
-    private Category category;
-    private Set<ProductImage> productImages ;
+   private Long categoryId;
+
+    private Set<ProductImage> productImages = new HashSet<>() ;
 }

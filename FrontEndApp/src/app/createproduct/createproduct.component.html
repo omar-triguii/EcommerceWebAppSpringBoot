@@ -1,0 +1,40 @@
+<div class="col-md-6 offset-md-3">
+    <h3> Create Employee </h3>
+    <form (ngSubmit) = "onSubmit()">
+    
+        <div class="form-group">
+            <label>  Name</label>
+            <input type="text" class ="form-control" id = "name"
+                [(ngModel)] = "product.name" name = "name">
+               
+                <label>prix</label>
+                <input type="number" step="any" class ="form-control" id = "name"
+                [(ngModel)] = "product.prix" name = "prix">
+                <label>quantity</label>
+                <input type="number" step="any" class ="form-control" id = "name"
+                
+                [(ngModel)] = "product.quantity" name = "quantity">
+                
+
+                <label>TVA</label>
+                <input type="number" step="any" class ="form-control" id = "tva"
+                
+                [(ngModel)] = "product.tva" name = "tva">
+
+                
+             
+                <label>category</label>
+                <input  type="number" step="any" class ="form-control" id = "categoryId"
+                [(ngModel)] = "product.categoryId"   name = "categoryId">
+
+                <label>date</label>
+                  <input type='date' [(ngModel)] = " product.datefondation" name = "dateFonadation"/><br>
+        </div>
+    
+       
+    
+        <button class = "btn btn-success" type ="submit">Submit</button>
+    
+    </form>
+    </div> 
+    

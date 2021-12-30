@@ -1,0 +1,54 @@
+
+    <div class="header">
+        <div class="container">
+          <div class="navbar">
+            <div class="logo">
+              <div class="brand">
+                <a href="#hero"><h1><span>S</span>ports <span>L</span>and</h1></a>
+              </div>
+            </div>
+            <!-- ca c'est la partie navbar -->
+            <nav>
+              <ul id="MenuItems">
+                <li><a routerLink="Home">Home</a></li>
+                <li><a id="news-botton" href="#news">News</a></li>
+                <li><a routerLink="product">pp</a></li>
+                <li><a id="product-botton" href="#products">Products</a></li>
+                <li><a id="contact-botton"href="#contact">Contact</a></li>
+                   <!-- J'ai pas encore terminé la section account du login and register -->
+                <li><a href="#">Account</a></li>
+              
+              </ul>
+            </nav>
+            <a href="#"
+              ><img src="images/cart.png" alt="" width="30px" height="30px"
+            /></a>
+               <!-- en cas de modificatin du layout de la page la navbar se change en 3 tirets comme la figure -->
+            <img
+              src="images/menu.png"
+              alt=""
+              class="menu-icon"
+              onclick="menutoggle()"
+            />
+          </div>
+        </div>
+    </div>
+
+    <!-- Button trigger modal -->
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>

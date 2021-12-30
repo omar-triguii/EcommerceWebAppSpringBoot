@@ -11,6 +11,7 @@ import com.asb.example.repo.RoleRepository;
 import com.asb.example.repo.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,7 +49,7 @@ private RoleRepository roleRepository;
         user.setEmail(email);
         user.setAddress(adress);
         user.setFirstName(firstName);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));
         user.setProfileImage(image.getBytes());
         user.setPhoneNumber(phoneNumber);
         user.setLastName(lastName);
@@ -127,4 +128,43 @@ private RoleRepository roleRepository;
         return "pannier added successfully to user"+userId;
 
     }
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public userEntity adduser1(userEntity user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    return this.userRepository.save(user);
+    }
+    public userEntity findByEmail(String email){
+        return this.userRepository.findByEmail(email);
+    }
+    public userEntity findByLoginAndPassword(String email,String password){
+        userEntity user=findByEmail(email);
+        if (user!=null){
+            if(passwordEncoder.matches(password,user.getPassword())){
+                return user;
+            }
+        }
+        return null;
+    }
+
+
+
+
+
+
+    public userEntity saveUser(userEntity userEntity) {
+        //RoleEntity userRole = roleEntityRepository.findByName("ROLE_USER");
+        //userEntity.setRoleEntity(userRole);
+        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+        return userRepository.save(userEntity);
+    }
+
+
+
+    public List<userEntity> getusers(){
+        return userRepository.findAll();
+    }
 }
+
